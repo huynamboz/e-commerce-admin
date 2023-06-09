@@ -1,5 +1,38 @@
 <template>
 	<div class="">
+		<!-- detail -->
+		<vs-dialog full-screen height="100%" v-model="openDetail">
+			<template #header class="flex flex-col">
+				<div class="flex justify-between items-center">
+					<p class="text-center font-bold text-2xl">CHI TIẾT BÀI ĐĂNG</p>
+					<vs-button @click="openDetail = false" class="p-0" color="danger" icon="icon-close"></vs-button>
+				</div>
+			</template>
+				<div class="flex gap-10">
+					<div class="flex flex-col gap-3">
+						<div>
+							<img :src="currentImage ? currentImage : ProductChoosed?.thumbnails?.[0]" class="w-[350px] h-[350px] object-cover" alt="">
+						</div>
+						<div class="flex gap-3 max-w-[350px] cursor-pointer overflow-x-scroll">
+							<div class="flex gap-3" @click="currentImage = thumb" v-for="thumb in ProductChoosed.thumbnails">
+								<img :src="thumb" alt="" class="w-[100px] h-[100px] min-w-[100px] min-h-[100px] object-cover">
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col gap-5">
+						<p class="text-2xl font-semibold">{{ ProductChoosed?.name }}</p>
+						<div>
+							<p>Mô tả : </p>
+							<pre class="max-h-[300px] overflow-y-scroll">{{ JSON.parse(ProductChoosed?.description ? ProductChoosed?.description : '"a"') }}</pre>
+						</div>
+						<div>
+							<p>Giá : <span class="text-2xl text-red-500 font-semibold">{{ ProductChoosed?.price }}đ</span></p>
+						</div>
+					</div>
+				</div>
+				<template #footer></template>
+		</vs-dialog>
+		<!-- end detail -->
 		<p class="text-lg font-medium mb-5">BÀI ĐĂNG CHỜ PHÊ DUYỆT</p>
 		<table class="bg-white w-full">
 			<tr class="bg-[#f9fafb]">
@@ -20,7 +53,7 @@
 						{{ product?.user.name }}
 					</div>
 				</td>
-				<td  @click="openArticle(product)" class=" text-blue-600 font-medium">{{ product?.name }}</td>
+				<td  @click="openDetail = true; ProductChoosed = product" class=" text-blue-600 font-medium">{{ product?.name }}</td>
 				<td>{{ product?.price }}</td>
 				<td>
 					<!-- tolocalstring -->
@@ -77,7 +110,9 @@ export default{
 			meta: {},
 			page: 1,
 			actionName: '',
-			isDeleting: false
+			openDetail: false,
+			isDeleting: false,
+			currentImage: ''
 		}
 	},
 	watch: {

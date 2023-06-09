@@ -105,3 +105,12 @@ a{
 	text-decoration: none;
 	color: unset;
 }
+pre{
+	word-wrap: break-word;
+	white-space: pre-line;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0;
+	padding: 0;
+}

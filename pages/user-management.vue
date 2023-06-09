@@ -46,8 +46,8 @@
 						{{ new Date(user.created_at).toLocaleDateString() }}
 					</td>
 					<td class="flex gap-3">
-						<div class="bg-[#5ddab4] block text-white p-[5px] rounded-[25px] text-xs" v-if="user.active_status">Đã kích hoạt</div>
-						<div class="bg-[#ee2624] block text-white p-[5px] rounded-[25px] text-xs" v-else>Chưa kích hoạt</div>
+						<div class="bg-[#5ddab4] min-w-[80px] block text-white p-[5px] rounded-[25px] text-xs" v-if="user.active_status">Đã kích hoạt</div>
+						<div class="bg-[#ee2624] min-w-[96px] block text-white p-[5px] rounded-[25px] text-xs" v-else>Chưa kích hoạt</div>
 					</td>
 					<td>
 						<img src="~/assets/icon/del.png" alt="" class="w-6 h-6 cursor-pointer" @click="confirmDeletePrompt = true;UserDelete= user">
