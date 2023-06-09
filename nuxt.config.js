@@ -69,7 +69,7 @@ export default {
 					refresh: { url: '/auth/refresh-token', method: 'post' ,
 					propertyName: 'data.refreshToken',
 					},
-					logout :false
+					logout :false 
 				},
 			},
 		},
