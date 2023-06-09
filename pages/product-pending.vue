@@ -121,7 +121,7 @@ export default{
 			}
 		},
 		openArticle(product) {
-			let url = 'https://superbad.store/product/' + product.id ;
+			let url = 'https://superbad.store/products/' + product.id ;
 			window.open(url, '_blank');
 		},
 		async getListProduct(val = 1) {
