@@ -78,7 +78,6 @@ export default{
 		changeStatus(){
 				this.$forceUpdate()
 				this.$axios.delete("/admin/products/"+this.ProductDelete.id).then(res=>{
-					console.log(res.data);
 					this.$toast.success("Xóa thành công");
 					this.confirmDeletePrompt = false;
 					this.getListProduct();
@@ -97,7 +96,6 @@ export default{
 			try {
 				await this.$axios.$get('/products?page=' + val)
 					.then(res => {
-						console.log(res.data);
 						this.listProduct = res.data;
 						this.meta = res.meta;
 					})
@@ -115,7 +113,6 @@ export default{
 	},
 	async mounted() {
 		await this.getListProduct();
-		console.log(this.listProduct);
 	}
 }
 </script>

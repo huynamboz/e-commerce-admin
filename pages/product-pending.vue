@@ -125,7 +125,6 @@ export default{
 			this.isDeleting = true;
 			if (this.actionName == 'chấp nhận') {
 				this.$axios.patch("/admin/products/"+this.ProductChoosed.id + "/accept").then(res=>{
-					console.log(res.data);
 					this.$toast.success("Đã chấp nhận bài đăng");
 					this.confirmDeletePrompt = false;
 					this.isDeleting = false;
@@ -141,7 +140,6 @@ export default{
 				this.isDeleting = true;
 				this.$forceUpdate()
 				this.$axios.delete("/admin/products/"+this.ProductChoosed.id).then(res=>{
-					console.log(res.data);
 					this.$toast.success("Xóa thành công");
 					this.confirmDeletePrompt = false;
 					this.getListProduct();
@@ -163,7 +161,6 @@ export default{
 			try {
 				await this.$axios.$get('/admin/products/waiting?page='+this.page)
 					.then(res => {
-						console.log(res.data);
 						this.listProduct = res.data;
 						this.meta = res.meta;
 					})
@@ -181,7 +178,6 @@ export default{
 	},
 	async mounted() {
 		await this.getListProduct();
-		console.log(this.listProduct);
 	}
 }
 </script>

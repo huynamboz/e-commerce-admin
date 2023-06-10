@@ -37,7 +37,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log(this.page)
 		this.getListPendingProduct();
 	},
 	methods: {
@@ -45,7 +44,6 @@ export default {
 			try {
 				await this.$axios.$get('/admin/products/waiting?page=1')
 					.then(res => {
-						console.log(res.data);
 						this.listPendingProduct = res.data;
 						this.meta = res.meta;
 					})

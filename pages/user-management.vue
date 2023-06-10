@@ -58,7 +58,7 @@
 				</tr>
 			</table>
 		</div>
-		<vs-dialog width="300px" not-center v-model="confirmDeletePrompt">
+		<vs-dialog width="300px" :loading="isLoading" not-center v-model="confirmDeletePrompt">
 			<template #header>
 			<h4 class="not-margin text-rose-700">
 				Bạn có chắc chắn muốn xóa tài khoản <b>{{ UserDelete.name }}</b>
@@ -171,6 +171,7 @@
 					<th>SDT</th>
 					<th>Tham gia</th>
 					<th>Ngày xóa</th>
+					<th>Khôi phục</th>
 				</tr>
 				<tr v-for="(user,index) in listUser" :key="user.id" class="hover:bg-[#f9fafb]"  v-if="user.delete_at != null">
 					<td>{{ user.id }}</td>
@@ -192,7 +193,26 @@
 					<td>
 						{{ user.delete_at ? new Date(user.delete_at).toLocaleDateString() : '' }}
 					</td>
+					<td>
+						<img src="~/assets/icon/restore.png" @click="openRestore = true; userRestore = user" alt="" class="w-[30px] h-[30px] cursor-pointer" style="border:unset; box-shadow: unset;">
+					</td>
 				</tr>
+					<vs-dialog :loading="isLoading" v-model="openRestore">
+						<template #header>
+						<h4 class="not-margin">
+							<b class="text-rose-400 text-xl">XÁC NHẬN</b>
+						</h4>
+						</template>
+						<p> Bạn có chắc chăn muốn khôi phục người dùng {{ userRestore.name }} không ?</p>
+						<div class="con-footer flex">
+							<vs-button @click="restoreUser()" transparent>
+							Đồng ý
+							</vs-button>
+							<vs-button @click="openRestore=false" dark transparent>
+							Cancel
+							</vs-button>
+						</div>
+					</vs-dialog>
 			</table>
 		</div>
 
@@ -214,7 +234,7 @@ export default{
 			max: 3,
 			listUser: [],
 			checked: false,
-			isLoading: [false],
+			isLoading: false,
 			pagePara: '',
 			listCreatedToday: [],
 			confirmDeletePrompt: false,
@@ -222,6 +242,9 @@ export default{
 			UserDelete: {},
 			keySearch: '',
 			listInit: [],
+			openRestore: false,
+			userRestore: {},
+			isDeleting: false,
 		}
 	},
 	computed:{
@@ -236,10 +259,25 @@ export default{
 	},
 	mounted(){
 		this.fetchUser();
-		console.log(this.pageParams)
-		this.pagePara = this.pageParams;console.log(new Date().toLocaleDateString())
+		this.pagePara = this.pageParams;
 	},
 	methods:{
+		async restoreUser(){
+			this.isLoading = true;
+			await this.$axios.patch(`/admin/users/${this.userRestore.id}`)
+			.then((res) => {
+				this.isLoading = false;
+				this.openRestore = false;
+				this.fetchUser();
+				this.$toast.success("Khôi phục người dùng thành công");
+				this.userRestore = {};
+			}).catch((err) => {
+				this.isLoading = false;
+				this.openRestore = false;
+				this.userRestore = {};
+				this.$toast.error("Khôi phục người dùng thất bại");
+			})
+		},
 		Search(type){
 			switch(type){
 				case 'createdToday':
@@ -254,7 +292,6 @@ export default{
 							this.listUser[i].phone_number?.toLowerCase().includes(this.keySearch.toLowerCase()) ||
 							this.listUser[i].email?.toLowerCase().includes(this.keySearch.toLowerCase())
 							) {
-							console.log(this.listUser[i].name)
 							results.push(this.listUser[i]);
 						}
 					}
@@ -266,19 +303,19 @@ export default{
 			this.listCreatedToday = this.listUser.filter(user=>{
 				return new Date(user.created_at).toLocaleDateString() == new Date().toLocaleDateString();
 			})
-			console.log(this.listCreatedToday)
 		},
 		changeStatus(){
 				this.$forceUpdate()
+				this.isLoading = true;
 				this.UserDelete.active_status = !this.UserDelete.active_status;
-				this.$axios.patch("/admin/users/"+this.UserDelete.id).then(res=>{
-					console.log(res.data);
+				this.$axios.delete("/admin/users/"+this.UserDelete.id).then(res=>{
 					this.$toast.success("Thay đổi trạng thái thành công");
 					this.confirmDeletePrompt = false;
+					this.isLoading = false;
 					this.fetchUser();
 				}).catch(err=>{
-					console.log(err);
 					this.$toast.error("Có lỗi xảy ra");
+					this.isLoading = false;
 					this.UserDelete.active_status = !this.UserDelete.active_status;
 					return
 				})
@@ -289,7 +326,6 @@ export default{
 			this.$axios.get("/admin/users").then(res=>{
 				this.listUser = res.data.data;
 				this.listInit = res.data.data;
-				console.log(res);
 				this.getlistCreatedToday();
 			})
 		}

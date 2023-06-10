@@ -131,7 +131,6 @@ export default {
 			this.listCreatedToday = this.listUser.filter(user=>{
 				return new Date(user.created_at).toLocaleDateString() == new Date().toLocaleDateString();
 			})
-			console.log(this.listCreatedToday)
 		},
 		fetchUser(){
 			// this.$axios.get("https://635d4fb7cb6cf98e56b20ae8.mockapi.io/api/listpost/user").then(res=>{

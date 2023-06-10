@@ -4,7 +4,6 @@ export default function ({ store, redirect, route }) {
 	if (token) {
 		token = token.split(" ")[1];
 		const decoded = jwtDecode(token);
-		console.log(decoded);
 		const role = decoded.role_id;
 		if (role != '1') {
 			console.log("NOT PERMISSION ACCESS", role);

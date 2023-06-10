@@ -73,9 +73,7 @@ export default {
 			// 	})
 			await this.$api.users.getInfoMe()
 				.then(resp => {
-					console.log(resp.data, "get by id done")
 					this.$auth.$storage.setUniversal('user', resp.data, true)
-					console.log(this.$auth.$storage.getUniversal('user'), "get universal");
 					this.$router.push('/')
 				})
 				.catch(err => {
@@ -95,7 +93,6 @@ export default {
 					let token = resp.data.accessToken;
 					if (token) {
 						const decoded = jwtDecode(token);
-						console.log(decoded,"decodeed");
 						const role = decoded.role_id;
 						if (role != '1') {
 							console.log("NOT PERMISSION ACCESS", role);
@@ -112,7 +109,6 @@ export default {
                     console.log(err);
 					this.authError = true;
 					this.$toast.error('Sai Email hoặc mật khẩu');
-					console.log(this.authError);
 					this.isLoading = false;
                 })
         }
