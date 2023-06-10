@@ -4,7 +4,7 @@
 		<vs-dialog full-screen height="100%" v-model="openDetail">
 			<template #header class="flex flex-col">
 				<div class="flex justify-between items-center">
-					<p class="text-center font-bold text-2xl">CHI TIẾT BÀI ĐĂNG</p>
+					<p class="text-center font-bold text-2xl">Báo cáo sản phẩm</p>
 					<vs-button @click="openDetail = false" class="p-0" color="danger" icon="icon-close"></vs-button>
 				</div>
 			</template>
@@ -33,7 +33,7 @@
 				<template #footer></template>
 		</vs-dialog>
 		<!-- end detail -->
-		<p class="text-lg font-medium mb-5">BÀI ĐĂNG CHỜ PHÊ DUYỆT</p>
+		<p class="text-lg font-medium mb-5">BÁO CÁO SẢN PHẨM</p>
 		<table class="bg-white w-full">
 			<tr class="bg-[#f9fafb]">
 				<th>ID</th>
@@ -44,7 +44,7 @@
 				<th>Nơi bán</th>
 				<th>Hành động</th>
 			</tr>
-			<tr v-for="(product, index) in listProduct" :key="product?.id" class=" cursor-pointer hover:bg-[#f9fafb]">
+			<tr v-for="(product, index) in listReport" :key="product?.id" class=" cursor-pointer hover:bg-[#f9fafb]">
 				<td>{{ product?.id }}</td>
 				<td>
 					<div class="flex gap-[5px] items-center">
@@ -106,7 +106,7 @@ export default{
 			confirmDeletePrompt: false,
 			ProductChoosed: {},
 			isLoading: [],
-			listProduct: [],
+			listReport: [],
 			meta: {},
 			page: 1,
 			actionName: '',
@@ -159,9 +159,9 @@ export default{
 		},
 		async getListProduct(val = 1) {
 			try {
-				await this.$axios.$get('/admin/products/pending-products?page='+this.page)
+				await this.$axios.$get('/admin/reports?page='+this.page)
 					.then(res => {
-						this.listProduct = res.data;
+						this.listReport = res.data;
 						this.meta = res.meta;
 					})
 			} catch (error) {

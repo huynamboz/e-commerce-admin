@@ -8,7 +8,7 @@
 				</div>
 				<div class="flex flex-col">
 					<div class="text-gray-400 font-medium">Người dùng</div>
-					<div class="font-bold">123.000</div>
+					<div class="font-bold">{{ listUser?.length }}</div>
 				</div>
 			</div>
 
@@ -18,7 +18,7 @@
 				</div>
 				<div class="flex flex-col">
 					<div class="text-gray-400 font-medium">Người dùng mới hôm nay</div>
-					<div class="font-bold">123.000</div>
+					<div class="font-bold">{{ listCreatedToday?.length }}</div>
 				</div>
 			</div>
 
@@ -28,7 +28,7 @@
 				</div>
 				<div class="flex flex-col">
 					<div class="text-gray-400 font-medium">Số bài đăng</div>
-					<div class="font-bold">123.000</div>
+					<div class="font-bold">{{ meta?.totalCount }}</div>
 				</div>
 			</div>
 
@@ -37,8 +37,8 @@
 					<img src="~/assets/icon/today.png" alt="" class="object-contain">
 				</div>
 				<div class="flex flex-col">
-					<div class="text-gray-400 font-medium">Số bài đăng hôm nay</div>
-					<div class="font-bold">123.000</div>
+					<div class="text-gray-400 font-medium">Số bài đăng chờ duyệt</div>
+					<div class="font-bold">{{ metaPending?.totalCount }}</div>
 				</div>
 			</div>
 		</div>
@@ -93,6 +93,10 @@ export default {
 		return{
 			listUser: [],
 			listCreatedToday: [],
+			listProduct: [],
+			listPendingProduct: [],
+			metaPending: {},
+			meta: {},
 			series: [{
             name: 'Người dùng mới',
             data: [31, 40, 28, 51, 42, 109, 100]
@@ -125,8 +129,32 @@ export default {
 	},
 	mounted(){
 		this.fetchUser();
+		this.getListProduct();
+		this.getListPendingProduct();
 	},
 	methods: {
+		async getListPendingProduct(val = 1) {
+			try {
+				await this.$axios.$get('/admin/products/pending-products?page=1')
+					.then(res => {
+						this.listPendingProduct = res.data;
+						this.metaPending = res.meta;
+					})
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async getListProduct(val = 1) {
+			try {
+				await this.$axios.$get('/products?page=' + val)
+					.then(res => {
+						this.listProduct = res.data;
+						this.meta = res.meta;
+					})
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		// getlistCreatedToday(){
 		// 	this.listCreatedToday = this.listUser.filter(user=>{
 		// 		return new Date(user.created_at).toLocaleDateString() == new Date().toLocaleDateString();

@@ -123,41 +123,7 @@
 
 
 
-		<div class="table w-full" v-show="pageParams == 'report'">
-			<p class="mb-5 text-lg font-medium block">Tài khoản cần được xem xét</p>
-
-			<table class="bg-white w-full">
-				<tr class="bg-[#f9fafb] text-gray-500">
-					<th>ID</th>
-					<th>Name</th>
-					<th>Email</th>
-					<th>SDT</th>
-					<th>Tham gia</th>
-					<th>Số lượng báo cáo</th>
-				</tr>
-				<tr v-for="(user,index) in listUser" :key="user.id" class="hover:bg-[#f9fafb]"  v-if="user.delete_at == null && user.report_count != 0">
-					<td>{{ user.id }}</td>
-					<td>
-						<div class="flex gap-[5px] items-center">
-							<img :src='user.avatar' alt="" v-if="user.avatar" class="w-[30px] h-[30px] rounded-[50%]">
-						<img src="~/assets/img/defaultavt.webp" 
-						class="w-[30px] h-[30px] rounded-[50%]"
-						alt="" v-else>
-						{{user.name}}
-						</div>
-					</td>
-					<td>{{user.email}}</td>
-					<td>{{ user.phone_number ? user.phone_number : 'Chưa có'  }}</td>
-					<td>
-						<!-- tolocalstring -->
-						{{ new Date(user.created_at).toLocaleDateString() }}
-					</td>
-					<td>
-						{{ user.report_count }}
-					</td>
-				</tr>
-			</table>
-		</div>
+		
 
 
 		<div class="table w-full" v-show="pageParams =='report'">
