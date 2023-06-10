@@ -3,7 +3,7 @@
 	flex items-center">
 		<div class="content flex justify-between w-[100%] m-auto px-20">
 			<div class="content-left ">
-				<h1>BAD MARKET</h1>
+				<h1>DASHBOARD</h1>
 			</div>
 			<div class="content-right cursor-pointer relative">
 				<h1 @click="openPopup = !openPopup"><i class="fi fi-rr-user"></i>ADMIN</h1>
