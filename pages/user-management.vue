@@ -299,11 +299,25 @@ export default{
 					break;
 			}
 		},
-		getlistCreatedToday(){
-			this.listCreatedToday = this.listUser.filter(user=>{
-				return new Date(user.created_at).toLocaleDateString() == new Date().toLocaleDateString();
-			})
-		},
+		// getlistCreatedToday(){
+		// 	this.listCreatedToday = this.listUser.filter(user=>{
+		// 		return new Date(user.created_at).toLocaleDateString() == new Date().toLocaleDateString();
+		// 	})
+		// },
+		getlistCreatedToday() {
+		const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000; // 24 giờ trong milliseconds
+
+		this.listCreatedToday = this.listUser.filter(user => {
+			const createdAt = new Date(user.created_at);
+			const currentTime = new Date();
+
+			// Kiểm tra chênh lệch thời gian giữa currentTime và createdAt
+			const timeDifference = currentTime - createdAt;
+			console.log(timeDifference);
+			return timeDifference <= twentyFourHoursInMilliseconds;
+		});
+		}
+		,
 		changeStatus(){
 				this.$forceUpdate()
 				this.isLoading = true;
