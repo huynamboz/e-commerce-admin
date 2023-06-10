@@ -1,5 +1,5 @@
 <template>
-<section class="w-[100vw] flex gap-5 max-[1300px]:flex-col">
+<section class="w-[100vw] flex gap-5 flex-col">
 	<div class="w-full">
 		<div class="flex gap-5 max-[1425px]:grid w-full max-[1425px]:grid-cols-2">
 			<div class="w-full h-fit bg-[#f5f9fe] rounded-10 px-30 py-30 flex gap-5 ">
