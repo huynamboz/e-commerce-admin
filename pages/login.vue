@@ -90,7 +90,7 @@ export default {
 					}
             })
                 .then(resp => {
-					let token = resp.data.accessToken;
+					let token = resp.data.data.accessToken;
 					if (token) {
 						const decoded = jwtDecode(token);
 						const role = decoded.role_id;
