@@ -99,11 +99,11 @@ export default {
 			meta: {},
 			series: [{
             name: 'Người dùng mới',
-            data: [31, 40, 28, 51, 42, 109, 100]
+            data: [31, 40, 28, 51, 42, 20, 12]
 			},
 			{
 				name: 'Người dùng bị khóa',
-				data: [11, 32, 45, 32, 34, 52, 41]
+				data: [11, 32, 45, 32, 34, 52, 20]
 			} ],
 			chartOptions: {
 				chart: {
